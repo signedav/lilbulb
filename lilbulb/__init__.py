@@ -33,6 +33,8 @@ class DatasetMetadata(object):
             return "projecttopping"
         if extension == ".ini":
             return "metaconfig"
+        if extension == ".qlr":
+            return "layerdefinition"
         if extension in [".xml",".xtf",".itf"]:
             return "referenceData"
 
@@ -60,9 +62,10 @@ class DatasetMetadata(object):
         type_datasetidx16_code = ET.SubElement( categories, "DatasetIdx16.Code_")
         ET.SubElement( type_datasetidx16_code, "value").text = f"http://codes.interlis.ch/type/{self.file_type}"
 
-        for linking_model in self.linking_models:
-            linking_model_datasetidx16_code = ET.SubElement( categories, "DatasetIdx16.Code_")
-            ET.SubElement( linking_model_datasetidx16_code, "value").text = f"http://codes.interlis.ch/model/{linking_model}"
+        if self.file_type in ['metaconfig', 'layerdefinition']:
+            for linking_model in self.linking_models:
+                linking_model_datasetidx16_code = ET.SubElement( categories, "DatasetIdx16.Code_")
+                ET.SubElement( linking_model_datasetidx16_code, "value").text = f"http://codes.interlis.ch/model/{linking_model}"
 
 
         files = ET.SubElement(element, "files")
@@ -86,6 +89,8 @@ def make_ilidata( path: str = ".", project_name: str = None, owner: str = None, 
 
     for file_root, dirs, files in os.walk(path):
         for file in files:
+            if os.path.basename(file) == "ilidata.xml":
+                continue
             file_path =os.path.join(file_root, file)
             print(f"file {file_path}")
             dataset_metadata_element = ET.SubElement(data_index, "DatasetIdx16.DataIndex.DatasetMetadata", TID=str(uuid.uuid4()))
@@ -94,4 +99,5 @@ def make_ilidata( path: str = ".", project_name: str = None, owner: str = None, 
 
     tree = ET.ElementTree(transfer)
     ilidata_path = os.path.join(path,"ilidata.xml")
-    tree.write(ilidata_path)
+    ET.indent(tree, space="\t", level=0)
+    tree.write(ilidata_path, encoding="utf-8")

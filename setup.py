@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="lilbulb",
-    version="1.0.1",
+    version="1.0.2",
     author="Dave Signer",
     author_email="david@opengis.ch",
     description="Dave's lil' bulb - small function lib for creating ilidata.xml files.",
@@ -20,5 +20,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=['lilbulb'],
-    python_requires=">=3.6",
+    python_requires=">=3.9",
 )
