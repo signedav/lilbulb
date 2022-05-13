@@ -26,7 +26,6 @@ class DatasetMetadata(object):
         self.title = f"QGIS {self.file_type} file for {self.project_name} - {file_name}"
 
     def _file_usabiltyhub_type(self, extension: str = None) -> str:
-        print(extension)
         if extension == ".qml":
             return "layerstyle"
         if extension == ".yaml":
@@ -92,7 +91,6 @@ def make_ilidata( path: str = ".", project_name: str = None, owner: str = None, 
             if os.path.basename(file) == "ilidata.xml":
                 continue
             file_path =os.path.join(file_root, file)
-            print(f"file {file_path}")
             dataset_metadata_element = ET.SubElement(data_index, "DatasetIdx16.DataIndex.DatasetMetadata", TID=str(uuid.uuid4()))
             dataset = DatasetMetadata(dataset_version,publishing_date,owner,file_path,project_name,linking_models)
             dataset.make_xml_element(dataset_metadata_element)
@@ -101,3 +99,4 @@ def make_ilidata( path: str = ".", project_name: str = None, owner: str = None, 
     ilidata_path = os.path.join(path,"ilidata.xml")
     ET.indent(tree, space="\t", level=0)
     tree.write(ilidata_path, encoding="utf-8")
+    print(f"Created {ilidata_path}")

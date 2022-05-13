@@ -8,6 +8,6 @@ pip install lilbulb
 
 ```
 >>> import lilbulb
->>> lilbulb.make_ilidata('.','daves_kbs15', 'mailto:signedav@lilbulb.ws', '2022-05-11', '2022-05-31', ['KbS_V1_5'])
 
+>>> lilbulb.make_ilidata( path='.', project_name='daves_kbs15', owner='signedav@lilbulb.ws', dataset_version='2022-05-11', publishing_date='2022-05-31', linking_models=['KbS_V1_5'])
 ```
